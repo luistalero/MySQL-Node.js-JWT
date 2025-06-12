@@ -12,7 +12,6 @@ export class UserRepository {
     this.validations.username(username)
     this.validations.password(password)
 
-    // Verificar si el usuario ya existe
     const [existingUser] = await pool.query(
       'SELECT id FROM users WHERE username = ? OR email = ? LIMIT 1',
       [username, email]
@@ -26,7 +25,7 @@ export class UserRepository {
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS)
 
     await pool.query(
-      'INSERT INTO users (id, email, username, password, role) VALUES (?, ?, ?, ?, ?)',
+      'INSERT INTO users (email, username, password, role) VALUES (?, ?, ?, ?)',
       [id, email, username, hashedPassword, role]
     )
 
@@ -48,7 +47,6 @@ export class UserRepository {
     const isValid = await bcrypt.compare(password, user.password)
     if (!isValid) throw new Error('Invalid password')
 
-    // Eliminamos el password del objeto retornado
     const { password: _, ...publicUser } = user
     return publicUser
   }
