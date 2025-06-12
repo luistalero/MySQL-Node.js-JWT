@@ -1,12 +1,16 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
 import cookieParser from 'cookie-parser'
-import { PORT, SECRET_JWT_KEY } from './config.js'
+import { PORT, SECRET_JWT_KEY, verifyDatabaseConnection } from './config.js'
 import rateLimit from 'express-rate-limit'
 import { UserRepository } from './user-repository.js'
 import { sendPasswordResetEmail } from './email-services.js'
 
 const app = express()
+
+verifyDatabaseConnection().catch(err => {
+  console.error('No se pudo establecer conexión con la base de datos:', err)
+})
 
 const passwordResetLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
