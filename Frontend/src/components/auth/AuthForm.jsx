@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import styles from './AuthForms.module.css'
 import WelcomePanel from './WelcomePanel'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
+import '../auth/AuthForms.modules.css'
 
 const AuthForms = ({ setUser }) => {
   const [activeForm, setActiveForm] = useState(null)
@@ -81,8 +81,8 @@ const AuthForms = ({ setUser }) => {
   }
 
   return (
-    <div className={styles.body}>
-      <div className={styles.container}>
+    <div style={{ border: '2px solid red', padding: '20px' }} className={"body"}>
+      <div className={"container"}>
         {!activeForm && (
           <WelcomePanel
             onShowLogin={() => setActiveForm('login')}

@@ -15,7 +15,7 @@ function App () {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch('/api', {
+        const response = await fetch('/api/user', {
           credentials: 'include'
         })
 
@@ -41,10 +41,7 @@ function App () {
     <Router>
       <div className="app">
         <Routes>
-        <Route path="/api" element={<WelcomePanel />} />
-          {/* <Route path="/" element={
-            !user ? <AuthForms setUser={setUser} /> : <Navigate to="/protected" />
-          } /> */}
+          <Route path="/" element={<WelcomePanel />} />
           <Route path="/login" element={<Navigate to="/" />} />
           <Route path="/protected" element={
             user ? <ProtectedArea user={user} /> : <Navigate to="/" />

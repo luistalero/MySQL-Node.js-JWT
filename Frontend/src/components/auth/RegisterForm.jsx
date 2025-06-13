@@ -1,9 +1,9 @@
 import React from 'react'
-import styles from './AuthForms.module.css'
+import '../auth/AuthForms.modules.css'
 
-const RegisterForm = ({ onSubmit, message }) => {
+const RegisterForm = ({ onSubmit, message = {}, onBack }) => {
   return (
-        <div className={styles.formContainer}>
+        <div className={"formContainer"}>
             <form id="register-form" onSubmit={onSubmit}>
                 <h2>Register</h2>
                 <label htmlFor="register-email">Email</label>
@@ -12,7 +12,7 @@ const RegisterForm = ({ onSubmit, message }) => {
                     name="email"
                     id="register-email"
                     required
-                    className={styles.input}
+                    className={"input"}
                 />
 
                 <label htmlFor="register-username">Username</label>
@@ -21,7 +21,7 @@ const RegisterForm = ({ onSubmit, message }) => {
                     name="username"
                     id="register-username"
                     required
-                    className={styles.input}
+                    className={"input"}
                 />
 
                 <label htmlFor="register-password">Password</label>
@@ -30,7 +30,7 @@ const RegisterForm = ({ onSubmit, message }) => {
                     name="password"
                     id="register-password"
                     required
-                    className={styles.input}
+                    className={"input"}
                 />
 
                 <label htmlFor="register-confirm-password">Confirm Password</label>
@@ -39,25 +39,31 @@ const RegisterForm = ({ onSubmit, message }) => {
                     name="confirm-password"
                     id="register-confirm-password"
                     required
-                    className={styles.input}
+                    className={"input"}
                 />
                 <label htmlFor="register-role">Role</label>
                 <select
                     name="role"
                     id="register-role"
                     required
-                    className={styles.input}
+                    className={"input"}
                     style={{ width: '100%', padding: '10px', marginBottom: '20px' }}
                 >
                     <option value="user">User</option>
                     <option value="admin">Admin</option>
                 </select>
 
-                <button type="submit" className={styles.button}>
+                {message?.text && (
+                    <span className={`${"message"} ${"message.type" ? "[message.type]" : ''}`}>
+                    {message.text}
+                  </span>
+                )}
+
+                <button type="submit" className={"button"}>
                     Register
                 </button>
                 {message.text && (
-                    <span className={`${styles.message} ${styles[message.type]}`}>
+                    <span className={`${"message"} ${"[message.type]"}`}>
                         {message.text}
                     </span>
                 )}

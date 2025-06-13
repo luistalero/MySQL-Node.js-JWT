@@ -25,7 +25,14 @@ app.use(cors({
 }))
 
 app.get('/', (req, res) => {
-  res.send('Backend funcionando. Usa /api para endpoints.');
+  res.json({
+    data: {
+      saludo: 'Bienevenido a mi Backend',
+      message: 'Este es el inicio del Backend de mi proyecto con Node.js y React.js',
+      creator: 'Luis Talero',
+      repository: `https://github.com/luistalero/MySQL-Node.js-JWT`
+    }
+  })
 });
 
 // Middleware de autenticación
