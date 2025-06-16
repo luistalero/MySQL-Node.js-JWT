@@ -1,3 +1,5 @@
+// server.js
+
 import express from 'express'
 import jwt from 'jsonwebtoken'
 import cookieParser from 'cookie-parser'
@@ -30,10 +32,10 @@ app.get('/', (req, res) => {
       saludo: 'Bienevenido a mi Backend',
       message: 'Este es el inicio del Backend de mi proyecto con Node.js y React.js',
       creator: 'Luis Talero',
-      repository: `https://github.com/luistalero/MySQL-Node.js-JWT`
+      repository: 'https://github.com/luistalero/MySQL-Node.js-JWT'
     }
   })
-});
+})
 
 // Middleware de autenticación
 app.use((req, res, next) => {
@@ -65,8 +67,8 @@ app.post('/api/login', async (req, res) => {
 
     res.cookie('access_token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      secure: false,
+      sameSite: 'lax',
       maxAge: 3600000
     }).json({
       success: true,
@@ -86,10 +88,14 @@ app.post('/api/login', async (req, res) => {
 })
 
 app.post('/api/register', async (req, res) => {
+  console.log('Datos de registro recibidos:', req.body)
+
   const { email, username, password, role = 'user' } = req.body
 
   try {
     const id = await UserRepository.create({ email, username, password, role })
+    console.log('Usuario registrado con ID:', id)
+
     res.json({
       success: true,
       message: 'Usuario registrado correctamente',
@@ -110,7 +116,6 @@ app.post('/api/logout', (req, res) => {
   })
 })
 
-// Ruta para obtener información del usuario actual
 app.get('/api/user', (req, res) => {
   if (!req.user) {
     return res.status(401).json({
@@ -124,7 +129,6 @@ app.get('/api/user', (req, res) => {
   })
 })
 
-// Ruta protegida de ejemplo
 app.get('/api/protected', (req, res) => {
   if (!req.user) {
     return res.status(401).json({
@@ -139,7 +143,6 @@ app.get('/api/protected', (req, res) => {
   })
 })
 
-// Rutas para administración
 app.get('/api/admin', authorizeRole('admin'), (req, res) => {
   res.json({
     success: true,
@@ -148,7 +151,6 @@ app.get('/api/admin', authorizeRole('admin'), (req, res) => {
   })
 })
 
-// Ruta para recuperación de contraseña
 const passwordResetLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 3,
@@ -225,7 +227,6 @@ app.post('/api/reset-password', async (req, res) => {
   }
 })
 
-// Middleware de autorización
 function authorizeRole (requiredRole) {
   return (req, res, next) => {
     if (!req.user) {
@@ -245,14 +246,13 @@ app.use('/api', (req, res) => {
   res.status(404).json({ error: 'Endpoint no encontrado' })
 })
 
-// Servir el frontend en producción
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../frontend/build')))
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'))
   })
 }
-// Iniciar servidor
+
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`)
 })

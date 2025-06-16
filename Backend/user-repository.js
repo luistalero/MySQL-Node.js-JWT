@@ -1,3 +1,5 @@
+// user-repository.js
+
 import crypto from 'node:crypto'
 import bcrypt from 'bcrypt'
 import { SALT_ROUNDS, pool } from './config.js'
@@ -8,7 +10,7 @@ export class UserRepository {
     if (!validRoles.includes(role)) {
       throw new Error(`Invalid role. Valid roles are: ${validRoles.join(', ')}`)
     }
-
+    this.validations.email(email)
     this.validations.username(username)
     this.validations.password(password)
 
@@ -26,7 +28,7 @@ export class UserRepository {
 
     await pool.query(
       'INSERT INTO users (email, username, password, role) VALUES (?, ?, ?, ?)',
-      [id, email, username, hashedPassword, role]
+      [email, username, hashedPassword, role]
     )
 
     return id
@@ -164,6 +166,13 @@ export class UserRepository {
   }
 
   static validations = {
+    email (email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailRegex.test(email)) {
+        throw new Error('Formato de email inválido')
+      }
+    },
+
     username (username) {
       if (typeof username !== 'string' || username.length < 3) {
         throw new Error('Username must be a string with at least 3 characters')
