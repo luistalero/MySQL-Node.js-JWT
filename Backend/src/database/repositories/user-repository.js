@@ -2,7 +2,7 @@
 
 import crypto from 'node:crypto'
 import bcrypt from 'bcrypt'
-import { SALT_ROUNDS, pool } from './config.js'
+import { SALT_ROUNDS, pool } from '../../config/index.js'
 
 export class UserRepository {
   static async create ({ email, username, password, role = 'user' }) {

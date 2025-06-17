@@ -1,10 +1,17 @@
 import React from 'react'
 import '../auth/AuthForms.modules.css'
 
-const RegisterForm = ({ onSubmit, message = {}, onBack }) => {
-  return (
-        <div className={"formContainer"}>
-            <form id="register-form" onSubmit={onSubmit}>
+const RegisterForm = ({ onSubmit, message, onBack }) => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        onSubmit(e)
+    }
+    return (
+        <div className="formContainer">
+            <button onClick={onBack} className="button" style={{ marginBottom: '20px' }}>
+                ← Volver
+            </button>
+            <form id="register-form" onSubmit={handleSubmit}>
                 <h2>Register</h2>
                 <label htmlFor="register-email">Email</label>
                 <input
@@ -12,7 +19,7 @@ const RegisterForm = ({ onSubmit, message = {}, onBack }) => {
                     name="email"
                     id="register-email"
                     required
-                    className={"input"}
+                    className="input"
                 />
 
                 <label htmlFor="register-username">Username</label>
@@ -21,7 +28,7 @@ const RegisterForm = ({ onSubmit, message = {}, onBack }) => {
                     name="username"
                     id="register-username"
                     required
-                    className={"input"}
+                    className="input"
                 />
 
                 <label htmlFor="register-password">Password</label>
@@ -30,46 +37,41 @@ const RegisterForm = ({ onSubmit, message = {}, onBack }) => {
                     name="password"
                     id="register-password"
                     required
-                    className={"input"}
+                    className="input"
                 />
 
                 <label htmlFor="register-confirm-password">Confirm Password</label>
                 <input
                     type="password"
-                    name="confirm-password"
+                    name="confirmpassword"
                     id="register-confirm-password"
                     required
-                    className={"input"}
+                    className="input"
                 />
                 <label htmlFor="register-role">Role</label>
                 <select
                     name="role"
                     id="register-role"
                     required
-                    className={"input"}
+                    className="input"
                     style={{ width: '100%', padding: '10px', marginBottom: '20px' }}
                 >
                     <option value="user">User</option>
                     <option value="admin">Admin</option>
                 </select>
 
-                {message?.text && (
-                    <span className={`${"message"} ${"message.type" ? "[message.type]" : ''}`}>
-                    {message.text}
-                  </span>
-                )}
-
-                <button type="submit" className={"button"}>
-                    Register
-                </button>
                 {message.text && (
-                    <span className={`${"message"} ${"[message.type]"}`}>
+                    <span className={`message ${message.type}`}>
                         {message.text}
                     </span>
                 )}
+
+                <button type="submit" className="button">
+                    Register
+                </button>
             </form>
         </div>
-  )
+    )
 }
 
 export default RegisterForm

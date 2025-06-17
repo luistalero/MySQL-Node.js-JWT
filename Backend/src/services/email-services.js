@@ -1,5 +1,3 @@
-// email-service.js
-
 import nodemailer from 'nodemailer'
 import jwt from 'jsonwebtoken'
 import { config } from 'dotenv'

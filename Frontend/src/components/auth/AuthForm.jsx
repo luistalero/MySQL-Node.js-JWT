@@ -15,7 +15,7 @@ const AuthForms = ({ setUser }) => {
     const { username, password } = Object.fromEntries(formData)
 
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch(`/api/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -37,16 +37,20 @@ const AuthForms = ({ setUser }) => {
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault()
+    console.log("Formulario de registro enviadooooo")
+
     const formData = new FormData(e.target)
     const data = Object.fromEntries(formData)
 
-    if (data.password !== data['confirm-password']) {
+    if (data.password === data['confirm-password']) {
       setRegisterMessage({ text: 'Las contraseñas no coinciden', type: 'error' })
       return
     }
 
     try {
-      const response = await fetch('/api/register', {
+      console.log("Enviando datos al backend:", data)
+
+      const response = await fetch(`/api/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -59,6 +63,7 @@ const AuthForms = ({ setUser }) => {
       })
 
       const result = await response.json()
+      console.log("Respuesta del Backend:", result)
 
       if (response.ok) {
         setRegisterMessage({

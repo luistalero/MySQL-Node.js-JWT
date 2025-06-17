@@ -1,18 +1,26 @@
-// config.js
-
 import mysql from 'mysql2/promise'
+import dotenv from 'dotenv'
+dotenv.config()
 
 export const {
   PORT = 3001,
+  DB_HOST = 'localhost',
+  DB_USER = 'root',
+  DB_PASSWORD = 'Catalina02*',
+  DB_NAME = 'node',
   SALT_ROUNDS = 10,
-  SECRET_JWT_KEY = 'this_is_an_awesome_secret_key_mucho_mas_largo_y_seguro'
+  SECRET_JWT_KEY = 'this_is_an_awesome_secret_key_mucho_mas_largo_y_seguro',
+  EMAIL_SERVICE = 'gmail',
+  EMAIL_USER = '',
+  EMAIL_PASSWORD = '',
+  EMAIL_FROM = 'no-reply@example.com'
 } = process.env
 
-const DB_CONFIG = {
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || 'Catalina02*',
-  database: process.env.DB_NAME || 'node',
+export const DB_CONFIG = {
+  host: DB_HOST,
+  user: DB_USER,
+  password: DB_PASSWORD,
+  database: DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
