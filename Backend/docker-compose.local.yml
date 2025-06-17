@@ -1,0 +1,30 @@
+services:
+  node_luis_server:
+    environment:
+      - NODE_ENV=local
+    hostname: localhost
+    container_name: node_luis_server
+    restart: unless-stopped
+    env_file:
+      - src/local.env
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    ports:
+      - 3001:3001
+    command: >
+      sh -c "npm run dev"
+    volumes:
+      - ./src:/app/src    
+  mariadb_NODE:
+    image: mariadb:11.4.4
+    hostname: mariadb_NODE
+    container_name: mariadb_NODE
+    restart: unless-stopped
+    env_file:
+      - src/local.env
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    ports:
+      - 3344:3306

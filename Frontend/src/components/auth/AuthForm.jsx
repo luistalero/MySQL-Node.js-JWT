@@ -41,8 +41,10 @@ const AuthForms = ({ setUser }) => {
 
     const formData = new FormData(e.target)
     const data = Object.fromEntries(formData)
+    const role = formData.get('role')
+    console.log('role value', role)
 
-    if (data.password === data['confirm-password']) {
+    if (data.password !== data['confirmpassword']) {
       setRegisterMessage({ text: 'Las contraseñas no coinciden', type: 'error' })
       return
     }

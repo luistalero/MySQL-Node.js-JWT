@@ -4,9 +4,9 @@ dotenv.config()
 
 export const {
   PORT = 3001,
-  DB_HOST = 'localhost',
-  DB_USER = 'root',
-  DB_PASSWORD = 'Catalina02*',
+  DB_HOST = 'host.docker.internal',
+  DB_USER = 'user',
+  DB_PASSWORD = 'luistalero02*',
   DB_NAME = 'node',
   SALT_ROUNDS = 10,
   SECRET_JWT_KEY = 'this_is_an_awesome_secret_key_mucho_mas_largo_y_seguro',

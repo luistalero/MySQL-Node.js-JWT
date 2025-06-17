@@ -33,6 +33,7 @@ app.get('/', (req, res) => {
 
 app.use(authenticate)
 app.use(mainRouter)
+app.set('trust proxy', 1)
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../frontend/build')))

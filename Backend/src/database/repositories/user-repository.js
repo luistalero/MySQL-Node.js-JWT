@@ -1,14 +1,14 @@
-// user-repository.js
-
 import crypto from 'node:crypto'
 import bcrypt from 'bcrypt'
 import { SALT_ROUNDS, pool } from '../../config/index.js'
 
 export class UserRepository {
-  static async create ({ email, username, password, role = 'user' }) {
+  static async create ({ email, username, password, role }) {
+    console.log('Datos recibidos en create():', { email, username, password, role })
     const validRoles = ['user', 'admin']
-    if (!validRoles.includes(role)) {
-      throw new Error(`Invalid role. Valid roles are: ${validRoles.join(', ')}`)
+    role = role?.trim()?.toLowerCase()
+    if (!role || !['user', 'admin'].includes(role)) {
+      throw new Error(`Invalid role: "${role}". Valid roles are: ${validRoles.join(', ')}`)
     }
     this.validations.email(email)
     this.validations.username(username)

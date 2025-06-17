@@ -1,8 +1,10 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import '../auth/AuthForms.modules.css'
 
 
 const LoginForm = ({ onSubmit, message }) => {
+    const navigate = useNavigate()
   return (
         <div className={"formcontainer"}>
             <form id="login-form" onSubmit={onSubmit}>
@@ -30,7 +32,7 @@ const LoginForm = ({ onSubmit, message }) => {
                 <button
                     id="forgot-password-btn"
                     type="button"
-                    onClick={() => (window.location.href = '/forgot-password')}
+                    onClick={() => navigate('/forgot-password')}
                     className={"button"}
                 >
                     Forgot Password

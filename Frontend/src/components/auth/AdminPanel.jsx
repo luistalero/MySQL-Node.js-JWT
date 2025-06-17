@@ -1,6 +1,8 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const AdminPanel = ({ user }) => {
+  const navigate = useNavigate()
   return (
     <div>
       <h1>Hola {user.username}</h1>
@@ -8,15 +10,9 @@ const AdminPanel = ({ user }) => {
 
       <button 
         style={{marginTop: '30px', backgroundColor: '#dc3545'}} 
-        onClick={() => window.location.href='/'}
+        onClick={() => navigate('/')}
       >
         Volver
-      </button>
-      <button 
-        style={{marginTop: '10px', backgroundColor: '#007bff'}} 
-        onClick={() => window.location.href='/protected'}
-      >
-        Protected
       </button>
     </div>
   )

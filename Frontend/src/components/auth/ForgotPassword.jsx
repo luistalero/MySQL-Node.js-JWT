@@ -4,13 +4,28 @@ import '../auth/AuthForms.modules.css'
 const ForgotPassword = () => {
   const [message, setMessage] = useState('')
   const [messageType, setMessageType] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    const email = e.target.email.value.trim()
+
+    if (!email) {
+      setMessage('Por favor ingresa tu correo electrónico')
+      setMessageType('error')
+      return
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      setMessage('Por favor ingresa un correo electrónico válido')
+      setMessageType('error')
+      return
+    }
+
     setMessage('Procesando solicitud...')
-    setMessageType('')
-    
-    const email = e.target.email.value
+    setMessageType('info')
+    setIsLoading(true)
     
     try {
       const response = await fetch('/api/forgot-password', {
@@ -18,35 +33,76 @@ const ForgotPassword = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email: email.toLowerCase() })
       })
 
       const data = await response.json()
       
-      setMessage(data.message)
-      setMessageType(response.ok ? 'success' : 'error')
+      if (!response.ok) {
+        if (data.error && data.error.includes('email')) {
+          throw new Error(data.error);
+        }
+        throw new Error(data.error || 'Error al procesar la solicitud');
+      }
+      
+      setMessage(data.message || 'Si el email existe, recibirás un correo de recuperación');
+      setMessageType('success');
+      e.target.reset();
     } catch (error) {
-      setMessage('Error de conexión. Inténtalo de nuevo más tarde.')
-      setMessageType('error')
-      console.error('Error:', error)
+      setMessage(error.message || 'Error de conexión. Inténtalo de nuevo más tarde.');
+      setMessageType('error');
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }
 
   return (
-    <div className="container">
-      <h1>Recuperar Contraseña</h1>
-      <div id="message" className={`message ${messageType}`} style={{display: message ? 'block' : 'none'}}>
-        {message}
-      </div>
-      <form id="forgot-password-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Correo Electrónico:</label>
-          <input type="email" id="email" name="email" required />
+    <div className="forgotPasswordContainer">
+      <h1 className="forgotPasswordTitle">Recuperar Contraseña</h1>
+      {message && (
+        <div 
+          id="message" 
+          className={`forgotPasswordText ${messageType}`} 
+          style={{ display: message ? 'block' : 'none' }}
+        >
+          {message}
         </div>
-        <button type="submit">Enviar Enlace de Recuperación</button>
+      )}
+      <form 
+        id="forgot-password-form" 
+        className="forgotPasswordForm" 
+        onSubmit={handleSubmit}
+      >
+        <div className="forgotPasswordFormGroup">
+          <label htmlFor="email" className="forgot-password-label">Correo Electrónico:</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            required 
+            placeholder="Ingresa tu correo registrado" 
+            className="forgotPasswordInput"
+          />
+        </div>
+        <button 
+          type="submit" 
+          className="forgotPasswordButton" 
+          disabled={isLoading}
+        >
+          {isLoading ? 'Enviando...' : 'Enviar Enlace de Recuperación'}
+        </button>
       </form>
-      <p style={{marginTop: '15px'}}>
-        <a href="/" style={{color: '#28a745', textDecoration: 'none'}}>← Volver al inicio</a>
+      <p className="groupBackToLoginLink">
+        <a href="/" className="backToLoginLink">¿Recordaste tu contraseña? Inicia sesión</a>
+        <br />
+        <a 
+          href="/" 
+          className="backToLoginLink" 
+          style={{ color: '#28a745', textDecoration: 'none' }}
+        >
+          ← Volver al inicio
+        </a>
       </p>
     </div>
   )

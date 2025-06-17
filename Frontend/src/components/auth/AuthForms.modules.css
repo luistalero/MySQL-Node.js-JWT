@@ -95,3 +95,73 @@
     background-color: #f8d7da;
     color: #721c24;
 }
+
+/* Estilos para ForgotPassword.jsx */
+.forgotPasswordContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.forgotPasswordTitle {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.forgotPasswordText {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.forgotPasswordInput {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.forgotPasswordButton {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.forgotPasswordButton:hover {
+    background-color: #0056b3;
+}
+
+.backToLoginLink {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+    text-align: center;
+}
+
+.backToLoginLink:hover {
+    text-decoration: underline;
+}
+
+.groupBackToLoginLink {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+    text-align: center;
+}

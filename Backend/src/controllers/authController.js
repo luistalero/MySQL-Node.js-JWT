@@ -27,8 +27,8 @@ export class AuthController {
 
   static async register (req, res) {
     try {
-      const { email, username, password } = req.body
-      const id = await UserRepository.create({ email, username, password })
+      const { email, username, password, role } = req.body
+      const id = await UserRepository.create({ email, username, password, role })
       res.status(201).json({ success: true, userId: id })
     } catch (error) {
       res.status(400).json({ success: false, error: error.message }
