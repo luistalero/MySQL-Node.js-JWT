@@ -6,7 +6,7 @@ services:
     container_name: node_luis_server
     restart: unless-stopped
     env_file:
-      - src/local.env
+      - local.env
     build:
       context: .
       dockerfile: Dockerfile
@@ -23,8 +23,8 @@ services:
     container_name: mariadb_NODE
     restart: unless-stopped
     env_file:
-      - src/local.env
+      - local.env
     volumes:
       - ./dbdata:/var/lib/mysql
     ports:
-      - 3344:3306
+      - 3554:3306
